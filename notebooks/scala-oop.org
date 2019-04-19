@@ -65,89 +65,71 @@ Stringオブジェクトに定義されているメソッドは他にもある (
 "3.14".toDouble   // StringオブジェクトからDoubleオブジェクトへの変換
 #+END_SRC
 
-** COMMENT xx
 複数のメソッドの呼び出しを連続して行うことも可能だ．
-#+begin_example
-scala> 314.toString.reverse.toInt
-res: Int = 413
+#+BEGIN_SRC scala
+314.toString.reverse.toInt
+#+END_SRC
 
-scala> ((314.toString).reverse).toInt  // 上と同一
-res: Int = 413
-#+end_example
+#+BEGIN_SRC scala
+((314.toString).reverse).toInt  // 上と同一
+#+END_SRC
 
 引数を取るメソッドも存在する．
-#+begin_example
-scala> "神戸大学".take(2)  // 文字列の先頭2文字
-res: String = 神戸
+#+BEGIN_SRC scala
+"神戸大学".take(2)  // 文字列の先頭2文字
+#+END_SRC
 
-scala> "神戸".+("大学")    // 文字列の連結
-res: String = 神戸大学
+#+BEGIN_SRC scala
+"神戸".+("大学")    // 文字列の連結
+#+END_SRC
 
-scala> "神戸".*(5)         // 文字列の繰り返し
-res: String = 神戸神戸神戸神戸神戸
+#+BEGIN_SRC scala
+"神戸".*(5)         // 文字列の繰り返し
+#+END_SRC
 
-scala> "japan".replaceAll("a", "x") // 文字列の置換
-res: String = jxpxn
+#+BEGIN_SRC scala
+"japan".replaceAll("a", "x") // 文字列の置換
+#+END_SRC
 
-scala> 12.max(34)          // 整数の最大値
-res: Int = 34
-#+end_example
+#+BEGIN_SRC scala
+12.max(34)          // 整数の最大値
+#+END_SRC
 
 引数を取るメソッドは，ドットを省略できる．
 さらに引数が1つなら，引数を囲むカッコも省略できる．
 すなわち，上の例は以下のように書ける．
-#+begin_example
-scala> "神戸大学" take 2
-res: String = 神戸
-
-scala> "神戸" + "大学"
-res: String = 神戸大学
-
-scala> "神戸" * 5
-res: String = 神戸神戸神戸神戸神戸
-
-scala> "japan" replaceAll("a", "x")
-res: String = jxpxn
-
-scala> 12 max 34
-res: Int = 34
-#+end_example
+#+BEGIN_SRC scala
+"神戸大学" take 2
+"神戸" + "大学"
+"神戸" * 5
+"japan" replaceAll("a", "x")
+12 max 34
+#+END_SRC
 
 このようにメソッド名を中置記法で記述した場合，
 英字名のメソッド ("take", "max"など)は
 最も低い演算子の優先度と解釈される点に注意が必要である．
 一方 "+" や "*" などの記号名のメソッドは，通常の数式と同様の優先度で解釈される．
-#+begin_example
-scala> 1 + 2 * 3
-res: Int = 7
+#+BEGIN_SRC scala
+1 + 2 * 3
+1 + (2 * 3)          // 上と同一
+1.+(2.*(3))          // 上と同一
+#+END_SRC
 
-scala> 1 + (2 * 3)          // 上と同一
-res: Int = 7
+#+BEGIN_SRC scala
+1 + 2 * 3 max 5      // maxは最も低い優先度
+(1 + (2 * 3)) max 5  // 上と同一
+(1.+(2.*(3))).max(5)   // 上と同一
+#+END_SRC
 
-scala> 1.+(2.*(3))          // 上と同一
-res: Int = 7
-
-scala> 1 + 2 * 3 max 5      // maxは最も低い優先度
-res: Int = 7
-
-scala> (1 + (2 * 3)) max 5  // 上と同一
-res: Int = 7
-
-scala> (1.+(2.*(3))).max(5)   // 上と同一
-res: Int = 7
-#+end_example
-
-* COMMENT 変数 (オブジェクトの参照)
+* 変数 (オブジェクトの参照)
 オブジェクトを変数に代入することで，そのオブジェクトを *参照* できる．
 変数の宣言には =var= と =val= の2種類があるが ([[file:scala-lang.org][Scala言語の概要]] の「変数の宣言と定義」を参照)，
 ここでは，初期値を一度だけ代入でき，その後は値を変更できない宣言である =val= を使おう．
-#+begin_src scala
-scala> val s = "Hello World"
-s: String = Hello World
-
-scala> s.length
-res: Int = 11
-#+end_src
+#+BEGIN_SRC scala
+val s = "Hello World"
+s.length
+#+END_SRC
 変数 =s= の *データ型* (クラス名)がStringであることが推論されている．
 
 ScalaのREPLでは "s." までを入力したときにTABキーを押すと，
@@ -155,45 +137,35 @@ ScalaのREPLでは "s." までを入力したときにTABキーを押すと，
 また，メソッド名の途中まで入力してTABキーを押すと，
 その文字列から始まるメソッド名が1通りしかなければそのメソッド名に補完され，
 複数の候補があればそれらの一覧が表示される．
-#+begin_src scala
-scala> s.rev (TABキーを押すと，reverseに補完される)
-#+end_src
+#+BEGIN_SRC scala
+s.rev // TABキーを押すとreverseに補完される
+#+END_SRC
 
 変数 =s= には，他のオブジェクトを再代入することはできない．
-#+begin_src scala
-scala> s = "Hello Kobe"
-<console>:12: error: reassignment to val
-       s = "Hello Kobe"
-         ^
-#+end_src
+#+BEGIN_SRC scala
+s = "Hello Kobe"
+#+END_SRC
 
 ただし，REPL内なら変数 =s= を =val= を再度用いて再宣言することは可能だ．
-#+begin_src scala
-scala> val s = "Hello Kobe"
-s: String = Hello Kobe
-#+end_src
+#+BEGIN_SRC scala
+val s = "Hello Kobe"
+#+END_SRC
 ただ，REPL中ではなくScalaのプログラム中だと，変数の二重宣言でエラーになることに注意する．
 
 =var= による変数宣言ならば，同じデータ型の再代入が可能になる．
-#+begin_src scala
-scala> var s = "Hello World"
-s: String = Hello World
+#+BEGIN_SRC scala
+var s = "Hello World"
+s = "Hello Kobe"
+#+END_SRC
 
-scala> s = "Hello Kobe"
-s: String = Hello Kobe
-
-scala> s = 123
-<console>:12: error: type mismatch;
- found   : Int(123)
- required: String
-       s = 123
-           ^
-#+end_src
+#+BEGIN_SRC scala
+s = 123
+#+END_SRC
 
 ただ，Scalaなどの関数型プログラミング言語では， *不変* (immutable)な変数の利用が基本である．
 できるだけ =val= を利用しよう．
 
-* COMMENT クラスの定義
+* COMMENT クラスの定義                                             :noexport:
 オブジェクト指向のプログラム中では，多数の同様のオブジェクトを利用する．
 そこで，多くのオブジェクト指向プログラミング言語では，
 同様のオブジェクトを生成するための型紙となるものとして *クラス* (class)を定義できるようになっている．
@@ -384,7 +356,7 @@ res: Boolean = true
 =equals= および =hashCode= メソッドを自分で記述する必要がある．
 一方，Scalaのケースクラスでは，それらのメソッドは自動的に定義され，自分で記述する必要はない．
 
-* COMMENT オブジェクトの定義
+* COMMENT オブジェクトの定義                                       :noexport:
 Scalaでは，オブジェクトを直接定義することもできる．
 たとえば，以下は 0 を表す複素数オブジェクト =Zero= の定義である．
 #+begin_src scala

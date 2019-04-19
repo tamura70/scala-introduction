@@ -1,0 +1,14 @@
+#+TITLE: Scalaプログラミング入門
+#+AUTHOR: 田村直之
+# #+SETUPFILE: scala-setup.txt
+* はじめに
+
+[[https://www.scala-lang.org][Scala]] プログラミング入門用の [[http://jupyter.org][Jupyter]] ノートブック ([[https://almond.sh][Almond]] Scala kernelを利用)を提供している．
+
+内容は以下のWebページに基づいている．
+
+  - [[http://bach.istc.kobe-u.ac.jp/lect/ProLang/org/scala.html][Scalaプログラミング入門]]
+
+* コンテンツ
+
+  - [[file:scala-oop.ipynb][Scalaでオブジェクト指向]]
