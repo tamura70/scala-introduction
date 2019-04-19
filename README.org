@@ -9,7 +9,7 @@
 
   - https://mybinder.org/v2/gh/tamura70/scala-introduction/master?urlpath=lab/tree/notebooks/index.ipynb
 
-Blenderのセットアップスクリプトは [[https://github.com/almond-sh/examples][Almond Examples]] から入手した．
+Binderのセットアップスクリプトは [[https://github.com/almond-sh/examples][Almond Examples]] から入手した．
 
 * Credits/Links
 
