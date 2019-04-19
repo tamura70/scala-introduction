@@ -1,0 +1,22 @@
+#+TITLE: Scalaプログラミング入門 
+#+AUTHOR: 田村直之
+* はじめに
+
+# #+HTML: <a href="https://mybinder.org/v2/gh/tamura70/scala-introduction/master?urlpath=lab/tree/README.ipynb"><img src="https://mybinder.org/badge_logo.svg"/></a>
+
+[[https://www.scala-lang.org][Scala]] プログラミング入門用の [[http://jupyter.org][Jupyter]] ノートブック ([[https://almond.sh][Almond]] Scala kernelを利用)を提供している．
+以下のURLをクリックするとWebブラウザ上で実行できる!
+
+  - https://mybinder.org/v2/gh/tamura70/scala-introduction/master?urlpath=lab/tree/README.ipynb
+
+内容は以下のWebページに基づいている．
+
+  - [[http://bach.istc.kobe-u.ac.jp/lect/ProLang/org/scala.html][Scalaプログラミング入門]]
+
+Blenderのセットアップスクリプトは [[https://github.com/almond-sh/examples][Almond Examples]] から入手した．
+
+* Credits/Links
+- [[https://www.scala-lang.org][Scala]]
+- [[http://jupyter.org][Jupyter]]
+- [[https://almond.sh][Almond]]
+- [[https://mybinder.org][Binder]]
