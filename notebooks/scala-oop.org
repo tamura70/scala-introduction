@@ -1,0 +1,441 @@
+#+TITLE: Scalaでオブジェクト指向
+#+AUTHOR: 田村直之
+# #+SETUPFILE: scala-setup.txt
+* 概要
+#+BEGIN_QUOTE
+Scalaにおけるオブジェクト指向プログラミングについて学ぶ．
+#+END_QUOTE
+
+* オブジェクト
+Java, Scalaなどの *オブジェクト指向プログラミング言語* (Object-Oriented Programming Language; OOPL)では，
+プログラムの処理対象は *オブジェクト* (object)と呼ばれるものである．
+
+  - 参考リンク: [[https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%8C%87%E5%90%91%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0][Wikipedia: オブジェクト指向プログラミング]]
+
+たとえばScalaでは，1, 2, 3などの整数や"Kobe", "Scala"などの文字列は，それぞれがオブジェクトである．
+Scalaの基本的なオブジェクトには以下のものがある．
+  - 32ビット整数 ([[http://www.scala-lang.org/api/current/scala/Int.html][Int]]): 1, 31, 2019 など
+  - 64ビット整数 ([[http://www.scala-lang.org/api/current/scala/Long.html][Long]]): 1L, 2147483648L など
+  - 倍精度浮動小数点数 ([[http://www.scala-lang.org/api/current/scala/Double.html][Double]]): 3.14, 2.718 など
+  - 単精度浮動小数点数 ([[http://www.scala-lang.org/api/current/scala/Float.html][Float]]): 3.14f, 2.718f など
+  - ブール値 ([[http://www.scala-lang.org/api/current/scala/Boolean.html][Boolean]]): true と false
+  - 文字列 (=String=): "Hello World", "文字列" など
+
+以下のように入力してみると，
+それぞれがIntオブジェクト， Doubleオブジェクト，Stringオブジェクトであることを確認できる．
+#+BEGIN_SRC scala
+1
+#+END_SRC
+
+#+BEGIN_SRC scala
+3.14
+#+END_SRC
+
+#+BEGIN_SRC scala
+"Hello World"
+#+END_SRC
+
+各オブジェクトは *属性* を持つことができる．
+たとえば各Stringオブジェクトはその長さ (length)を属性として持っている．
+Scalaで文字列の長さを得るには，Stringオブジェクトの記述の後ろにピリオドを下記，さらにlengthと記述する．
+#+BEGIN_SRC scala
+"Hello World".length
+#+END_SRC
+
+この記述は，Stringオブジェクトからその長さを表すIntオブジェクトを求めるための演算を
+記述していると考えることもできる．
+オブジェクト指向プログラミングでは，このような演算を *メソッド* (method)と呼ぶ．
+すなわち，上記のlengthは，Stringオブジェクトに定義されているメソッドの1つである．
+
+Stringオブジェクトに定義されているメソッドは他にもある ([[http://www.scala-lang.org/api/current/scala/collection/immutable/StringOps.html][StringOps]] 参照)．
+#+BEGIN_SRC scala
+"こうべ".reverse    // 文字列の逆順
+#+END_SRC
+
+#+BEGIN_SRC scala
+"kobe".sorted       // 文字列のソート
+#+END_SRC
+
+もう少し他の例を見てみよう．以下のメソッドは，オブジェクト間の変換を行っている．
+#+BEGIN_SRC scala
+314.toLong        // IntオブジェクトからLongオブジェクトへの変換
+314.toDouble      // IntオブジェクトからDoubleオブジェクトへの変換
+314.toString      // IntオブジェクトからStringオブジェクトへの変換
+"314".toInt       // StringオブジェクトからIntオブジェクトへの変換
+"3.14".toDouble   // StringオブジェクトからDoubleオブジェクトへの変換
+#+END_SRC
+
+** COMMENT xx
+複数のメソッドの呼び出しを連続して行うことも可能だ．
+#+begin_example
+scala> 314.toString.reverse.toInt
+res: Int = 413
+
+scala> ((314.toString).reverse).toInt  // 上と同一
+res: Int = 413
+#+end_example
+
+引数を取るメソッドも存在する．
+#+begin_example
+scala> "神戸大学".take(2)  // 文字列の先頭2文字
+res: String = 神戸
+
+scala> "神戸".+("大学")    // 文字列の連結
+res: String = 神戸大学
+
+scala> "神戸".*(5)         // 文字列の繰り返し
+res: String = 神戸神戸神戸神戸神戸
+
+scala> "japan".replaceAll("a", "x") // 文字列の置換
+res: String = jxpxn
+
+scala> 12.max(34)          // 整数の最大値
+res: Int = 34
+#+end_example
+
+引数を取るメソッドは，ドットを省略できる．
+さらに引数が1つなら，引数を囲むカッコも省略できる．
+すなわち，上の例は以下のように書ける．
+#+begin_example
+scala> "神戸大学" take 2
+res: String = 神戸
+
+scala> "神戸" + "大学"
+res: String = 神戸大学
+
+scala> "神戸" * 5
+res: String = 神戸神戸神戸神戸神戸
+
+scala> "japan" replaceAll("a", "x")
+res: String = jxpxn
+
+scala> 12 max 34
+res: Int = 34
+#+end_example
+
+このようにメソッド名を中置記法で記述した場合，
+英字名のメソッド ("take", "max"など)は
+最も低い演算子の優先度と解釈される点に注意が必要である．
+一方 "+" や "*" などの記号名のメソッドは，通常の数式と同様の優先度で解釈される．
+#+begin_example
+scala> 1 + 2 * 3
+res: Int = 7
+
+scala> 1 + (2 * 3)          // 上と同一
+res: Int = 7
+
+scala> 1.+(2.*(3))          // 上と同一
+res: Int = 7
+
+scala> 1 + 2 * 3 max 5      // maxは最も低い優先度
+res: Int = 7
+
+scala> (1 + (2 * 3)) max 5  // 上と同一
+res: Int = 7
+
+scala> (1.+(2.*(3))).max(5)   // 上と同一
+res: Int = 7
+#+end_example
+
+* COMMENT 変数 (オブジェクトの参照)
+オブジェクトを変数に代入することで，そのオブジェクトを *参照* できる．
+変数の宣言には =var= と =val= の2種類があるが ([[file:scala-lang.org][Scala言語の概要]] の「変数の宣言と定義」を参照)，
+ここでは，初期値を一度だけ代入でき，その後は値を変更できない宣言である =val= を使おう．
+#+begin_src scala
+scala> val s = "Hello World"
+s: String = Hello World
+
+scala> s.length
+res: Int = 11
+#+end_src
+変数 =s= の *データ型* (クラス名)がStringであることが推論されている．
+
+ScalaのREPLでは "s." までを入力したときにTABキーを押すと，
+そのデータ型に対して可能なメソッド名の一覧が表示される．
+また，メソッド名の途中まで入力してTABキーを押すと，
+その文字列から始まるメソッド名が1通りしかなければそのメソッド名に補完され，
+複数の候補があればそれらの一覧が表示される．
+#+begin_src scala
+scala> s.rev (TABキーを押すと，reverseに補完される)
+#+end_src
+
+変数 =s= には，他のオブジェクトを再代入することはできない．
+#+begin_src scala
+scala> s = "Hello Kobe"
+<console>:12: error: reassignment to val
+       s = "Hello Kobe"
+         ^
+#+end_src
+
+ただし，REPL内なら変数 =s= を =val= を再度用いて再宣言することは可能だ．
+#+begin_src scala
+scala> val s = "Hello Kobe"
+s: String = Hello Kobe
+#+end_src
+ただ，REPL中ではなくScalaのプログラム中だと，変数の二重宣言でエラーになることに注意する．
+
+=var= による変数宣言ならば，同じデータ型の再代入が可能になる．
+#+begin_src scala
+scala> var s = "Hello World"
+s: String = Hello World
+
+scala> s = "Hello Kobe"
+s: String = Hello Kobe
+
+scala> s = 123
+<console>:12: error: type mismatch;
+ found   : Int(123)
+ required: String
+       s = 123
+           ^
+#+end_src
+
+ただ，Scalaなどの関数型プログラミング言語では， *不変* (immutable)な変数の利用が基本である．
+できるだけ =val= を利用しよう．
+
+* COMMENT クラスの定義
+オブジェクト指向のプログラム中では，多数の同様のオブジェクトを利用する．
+そこで，多くのオブジェクト指向プログラミング言語では，
+同様のオブジェクトを生成するための型紙となるものとして *クラス* (class)を定義できるようになっている．
+
+たとえば，複素数 (complex number)を表すオブジェクトのためのクラス定義を考えよう．
+複素数オブジェクトは，実部 (=re=)と虚部 (=im=)からなるオブジェクトと定義できるだろう．
+Scalaのケースクラス (case class)構文を用いた場合，
+Scalaプログラム中での複素数クラス =Complex= の定義は以下のように書ける．
+#+begin_src scala
+case class Complex(re: Double, im: Double)
+#+end_src
+=case class= の次の =Complex= が定義するクラス名である．
+そして，カッコ内の =re= と =im= がComplexオブジェクトを構成する属性名で，
+それぞれの後ろのコロン (=:=)に続き，それらのデータ型 =Double= が指定されている．
+
+ScalaのREPLからは，以下のように入力すれば定義できる．
+#+begin_example
+scala> case class Complex(re: Double, im: Double)
+defined class Complex
+#+end_example
+
+定義したComplexクラスから，Complexオブジェクトを生成するには以下のように入力する．
+#+begin_example
+scala> val z = Complex(1.0, 2.0)
+z: Complex = Complex(1.0,2.0)
+#+end_example
+Javaと同様に =new Complex(1.0, 2.0)= のように =new= を付けても良いが，
+Scalaのケースクラスの場合は不要である．
+なお，整数は自動的にDoubleオブジェクトに変換されるから，
+小数点以下を省いて =Complex(1, 2)= と入力しても良い．
+
+変数 =z= で参照しているComplexオブジェクトに対して，
+メソッド =re= および =im= を用いて，実部および虚部のそれぞれを得ることができる．
+#+begin_example
+scala> z.re
+res: Double = 1.0
+scala> z.im
+res: Double = 2.0
+#+end_example
+
+また，Scalaでは =def= を用いて，その他のメソッドを定義できる．
+たとえば，以下は複素数の和を計算するメソッド =plus= の定義例である．
+#+begin_src scala
+case class Complex(re: Double, im: Double) {
+  def plus(that: Complex): Complex = {
+    // 実部の和の計算
+    val re1 = re + that.re
+    // 虚部の和の計算
+    val im1 = im + that.im
+    // 新しい複素数を生成し，返す
+    Complex(re1, im1)
+  }
+}
+#+end_src
+=def= の後ろの =plus= がメソッド名，
+=that: Complex= が引数名とそのデータ型，
+その後ろの =Complex= がメソッドが返すデータ型の指定，
+~=~ の後ろがメソッド定義の本体である．
+
+=val re1= の行では，実部の和を計算し変数 =re1= に代入している．
+=re= は自分自身の実部を表し， =that.re= は引数として与えられたComplexオブジェクトの実部を表している．
+次の =val im1= の行では，同様に虚部の和を計算し変数 =im1= に代入している．
+最後の行 =Complex(re1, im1)= で，新しいComplexオブジェクトが生成され，
+=plus= メソッドの返り値として返されている．
+
+このプログラムを，少し修正すると以下のようになる．
+#+begin_src scala
+case class Complex(re: Double, im: Double) {
+  def plus(that: Complex) = Complex(re + that.re, im + that.im)
+}
+#+end_src
+メソッドの返り値のデータ型 =Complex= が省略され，
+実部と虚部の計算が =Complex= オブジェクトを生成する引数の部分に埋め込まれている．
+また，メソッド本体の定義が1行だけなので，メソッド定義を囲んでいた ={}= が省略している．
+
+このプログラムを，ScalaのREPLで入力しよう．
+以下のように，まず =:paste= コマンド (コロンから始まることに注意)を入力し，
+上のプログラムを貼り付けてから，最後に Ctrl-D (Windowsの場合はCtrl-Z)を入力する必要がある．
+#+begin_example
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+case class Complex(re: Double, im: Double) {
+  def plus(that: Complex) = Complex(re + that.re, im + that.im)
+}
+[Ctrl-Dを入力]
+// Exiting paste mode, now interpreting.
+defined class Complex
+scala> 
+#+end_example
+
+そうすると，以下のように実行できる．
+#+begin_example
+scala> val z1 = Complex(1, 2)
+z1: Complex = Complex(1.0,2.0)
+scala> val z2 = Complex(3, 4)
+z2: Complex = Complex(3.0,4.0)
+scala> z1.plus(z2)
+res: Complex = Complex(4.0,6.0)
+#+end_example
+最後の =z1.plus(z2)= により =z1= と =z2= の和が計算できていることがわかる．
+
+Scalaでは，演算子の優先度の注意が必要だが，
+=z1.plus(z2)= のドット (=.=)とカッコを省略して記述することもできる．
+#+begin_example
+scala> z1 plus z2
+res: Complex = Complex(4.0,6.0)
+#+end_example
+
+また，Scalaではメソッド名として記号を用いることができる．
+たとえば，以下のようにクラス定義を書き換える
+(上記と同様に =:paste= コマンドを利用すると良い)．
+#+begin_src scala
+case class Complex(re: Double, im: Double) {
+  def +(that: Complex) = Complex(re + that.re, im + that.im)
+  def unary_- = Complex(-re, -im)
+}
+#+end_src
+=case class Complex= をScala REPL内で二重に定義したため，
+"Unused import"というエラーが表示されるかもしれないが，無視して良い．
+
+=def += は，先程の =plus= メッソドの代わりに =+= という名前のメソッドを定義している．
+これにより =z1 + z2= という記法が可能になる．
+また =def unary_-= は，単項の =-= という名前のメソッドを定義している．
+これにより =- z1= という記法が可能になる．
+
+ScalaのREPLで上の定義を入力し，実行してみよう．
+#+begin_example
+scala> val z1 = Complex(1, 2)
+z1: Complex = Complex(1.0,2.0)
+scala> val z2 = Complex(3, 4)
+z2: Complex = Complex(3.0,4.0)
+scala> - z1 + z2
+res: Complex = Complex(2.0,2.0)
+#+end_example
+
+=- z1 + z2= という入力により，求めたい複素数が正しく求まっていることがわかる．
+なお，Scalaで加減乗除算などの記号をメソッド名として使用した場合，
+通常の数学の記法と同様の演算子の優先度により解釈される．
+
+次に，引数の省略について説明する．
+クラス定義を以下のように書き換えると，Complexオブジェクト作成時の引数の値を省略できる．
+すなわち， =im= の値が省略された場合には 0.0 の値となり，
+=re= と =im= の両方の値が省略された場合にはどちらも 0.0 となる．
+#+begin_src scala
+case class Complex(re: Double = 0.0, im: Double = 0.0) {
+  def +(that: Complex) = Complex(re + that.re, im + that.im)
+  def unary_- = Complex(-re, -im)
+}
+#+end_src
+
+以下が実行例である．
+#+begin_example
+scala> Complex(1)
+res: Complex = Complex(1.0,0.0)
+scala> Complex()
+res: Complex = Complex(0.0,0.0)
+#+end_example
+
+また =im= の値だけを指定することもできる．
+#+begin_example
+scala> Complex(im = 2)
+res: Complex = Complex(0.0,2.0)
+#+end_example
+
+次に，オブジェクトの同値性について説明する．
+Scalaで，ケースクラス (case class)として定義したクラスのオブジェクトは，
+引数の値が同一かどうかにより同値性が判定される (構造同値)．
+
+たとえば，以下の =z1= と =z2= は別々のオブジェクトとして生成されているが，
+演算子 ~==~ では，実部と虚部の値が同じだから同値と判定される．
+#+begin_example
+scala> val z1 = Complex(1, 2)
+z1: Complex = Complex(1.0,2.0)
+scala> val z2 = Complex(1, 2)
+z2: Complex = Complex(1.0,2.0)
+scala> z1 == z2
+res: Boolean = true
+#+end_example
+
+これは，ケースクラスを用いる大きなメリットである．
+上記のComplexオブジェクトは，最初に実部と虚部の値が与えられたら，
+その後それらは変化しない (*不変オブジェクト*; immutable object)．
+したがって，実部と虚部が一致しているComplexオブジェクトを同値とみなすのは自然であり，
+それが演算子 ~==~ で判定できることが望ましいといえる．
+
+なお，Javaで構造同値を実現しようとすると，
+=equals= および =hashCode= メソッドを自分で記述する必要がある．
+一方，Scalaのケースクラスでは，それらのメソッドは自動的に定義され，自分で記述する必要はない．
+
+* COMMENT オブジェクトの定義
+Scalaでは，オブジェクトを直接定義することもできる．
+たとえば，以下は 0 を表す複素数オブジェクト =Zero= の定義である．
+#+begin_src scala
+object Zero extends Complex(0.0, 0.0)
+#+end_src
+
+クラスの記述中で定義されているメソッドは，
+最初にそのクラスのオブジェクトを生成しないと利用できないが，
+上のようなオブジェクトの記述中で定義されているメソッドは直接呼び出すことができる．
+たとえば，以下のようなオブジェクトを定義する．
+#+begin_src scala
+object Work {
+  def main(args: Array[String]): Unit = {
+    println("Hello Kobe")
+  }
+}
+#+end_src
+
+定義したメソッド =main= は，以下のようにして呼び出すことができる．
+#+begin_example
+scala> Work.main(Array())
+Hllo Kobe
+#+end_example
+
+また，このように定義したメソッド =main= は，
+Scalaプログラムのmain関数として呼び出すことができる．
+その場合，コマンドラインから指定した引数は，配列 =args= に格納されている．
+
+次に，Scalaで *コンパニオンオブジェクト* (companion object)と呼ばれているものについて説明する．
+前のComplexケースクラスを例に取ろう．
+このとき，複素数を(静的に)取り扱うためのメソッドを提供するオブジェクトとして，
+同一の名前を持ったComplexオブジェクトを記述することがある．
+
+たとえば，極形式から複素数オブジェクトを生成したいとしよう．
+この場合，ComplexクラスとComplexオブジェクトを以下のように同時に定義する．
+#+begin_src scala
+case class Complex(re: Double = 0.0, im: Double = 0.0) {
+  def +(that: Complex) = Complex(re + that.re, im + that.im)
+  def unary_- = Complex(-re, -im)
+}
+object Complex {
+  def polar(r: Double, arg: Double) = Complex(r * math.cos(arg), r * math.sin(arg))
+}
+#+end_src
+ここで =math.cos= はコサイン関数， =math.sin= はサイン関数である．
+
+こうすれば， =Complex.polar= メソッドにより極形式でComplexオブジェクトを生成できるようになる．
+#+begin_example
+scala> Complex.polar(1, math.Pi/3)
+res: Complex = Complex(0.5000000000000001,0.8660254037844386)
+#+end_example
+ここで =math.Pi= は円周率である．
+
+
