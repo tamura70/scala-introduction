@@ -14,6 +14,6 @@ Binderのセットアップスクリプトは [[https://github.com/almond-sh/exa
 * Credits/Links
 
   - [[https://www.scala-lang.org][Scala]]
-  - [[http://jupyter.org][Jupyter]]
   - [[https://almond.sh][Almond]]
+  - [[http://jupyter.org][Jupyter]]
   - [[https://mybinder.org][Binder]]
