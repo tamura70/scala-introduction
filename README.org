@@ -9,9 +9,40 @@
 
   - https://mybinder.org/v2/gh/tamura70/scala-introduction/master?urlpath=lab/tree/notebooks/index.ipynb
 
-Binderのセットアップスクリプトは [[https://github.com/almond-sh/examples][Almond Examples]] から入手した．
+* 自分用のBinderサイトの作り方
+
+1. Visit https://github.com/tamura70/scala-introduction and download ZIP file
+   - You will download ~scala-introduction-master.zip~ file.
+2. Unzip the downloaded file and rename the folder name as you like.
+   - Say ~scala-test~
+3. Create your public repository on [[https://github.com][GitHub]]
+   - Say ~https://github.com/XXXXX/scala-test~ (XXXXX is your ID)
+4. Run some commands on your machine to update your GitHub repository
+   : cd scala-test
+   : git init
+   : git add .
+   : git commit -m "First commit"
+   : git remote add origin https://github.com/XXXXX/scala-test.git
+   : git push -u origin master
+5. Create your Binder site
+   - Access [[https://mybinder.org][Binder]] with Firefox or Chrome
+   - Enter your GitHub repository name (say, ~XXXXX/scala-test~)
+   - Copy the URL to access your Binder site later
+   - Click "launch" button
+   - Wait for a while.  Your browser will be redirected after the docker image is created.
+6. Modify/create Jupyter notebooks as you like in your browser!
+7. Download your notebooks into ~scala-test~ directory
+   - Otherwise, your work will disappear in vain!
+8. Reflect your changes to the repositry
+   : git add .
+   : git commit -m "Modify notebooks"
+   : git push
+9. Access your Binder site again
+   - The docker image will be recreated automatically (this will also take a time)
+   - Appending ~?urlpath=lab~ to the URL gives a better GUI
 
 * Credits/Links
+Binderのセットアップスクリプトは [[https://github.com/almond-sh/examples][Almond Examples]] から入手した．
 
   - [[https://www.scala-lang.org][Scala]]
   - [[https://almond.sh][Almond]]
