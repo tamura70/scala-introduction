@@ -4,11 +4,9 @@
 * はじめに
 
 [[https://www.scala-lang.org][Scala]] プログラミング入門用の [[http://jupyter.org][Jupyter]] ノートブック ([[https://almond.sh][Almond]] Scala kernelを利用)を提供している．
-
-内容は以下のWebページに基づいている．
-
-  - [[http://bach.istc.kobe-u.ac.jp/lect/ProLang/org/scala.html][Scalaプログラミング入門]]
+元のGitHubサイトは [[https://github.com/tamura70/scala-introduction/]] である．
 
 * コンテンツ
+以下の内容はWebページ  [[http://bach.istc.kobe-u.ac.jp/lect/ProLang/org/scala.html][Scalaプログラミング入門]] に基づいている．
 
   - [[file:scala-oop.ipynb][Scalaでオブジェクト指向]]
